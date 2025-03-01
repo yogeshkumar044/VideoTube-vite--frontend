@@ -27,7 +27,7 @@ const Login = () => {
         const isEmail = identifier.includes('@');
 
         try {
-            const { data } = await axios.post('http://localhost:8000/api/v1/users/login', {
+            const { data } = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/login`, {
                 [isEmail ? 'email' : 'username']: identifier,
                 password,
             });

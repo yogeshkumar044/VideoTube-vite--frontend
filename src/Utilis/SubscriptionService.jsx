@@ -7,7 +7,7 @@ export const toggleSubscription = async (channelId ,subscriberId) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post(`http://localhost:8000/api/v1/subscription/t/${channelId}`,
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/subscription/t/${channelId}`,
       {
         channelId ,
         subscriberId

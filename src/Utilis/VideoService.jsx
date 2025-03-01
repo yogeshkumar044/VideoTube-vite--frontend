@@ -10,7 +10,7 @@ export const uploadVideo = async (videoData) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post('http://localhost:8000/api/v1/videos/', videoData, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/videos/`, videoData, {
       headers: {
         'Content-Type': 'multipart/form-data',
         'Authorization': `Bearer ${token}`, // Add the token to the Authorization header

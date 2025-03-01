@@ -4,7 +4,7 @@ const logout = async () => {
   try {
     const token = localStorage.getItem('authToken');
 
-    await axios.post('http://localhost:8000/api/v1/users/logout', {}, {
+    await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/logout`, {}, {
       headers: {
         Authorization: `Bearer ${token}`,
       },

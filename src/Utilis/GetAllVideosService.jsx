@@ -8,7 +8,7 @@ export const getAllVideos = async (page = 1, limit = 12, query = '', sortBy = 'c
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.get('http://localhost:8000/api/v1/videos', {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/videos`, {
       params: { page, limit, query, sortBy, sortType, ownerId },
       headers: {
         'Authorization': `Bearer ${token}`,

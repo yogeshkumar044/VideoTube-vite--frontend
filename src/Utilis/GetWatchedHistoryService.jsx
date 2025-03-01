@@ -7,7 +7,7 @@ export const getWatchedHistory = async (page = 1, limit = 12, sortBy = 'watchedA
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post('http://localhost:8000/api/v1/users/history',
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/history`,
        {
         page, limit, sortBy, sortType
        },

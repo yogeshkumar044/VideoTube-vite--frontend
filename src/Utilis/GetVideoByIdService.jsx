@@ -9,7 +9,7 @@ export const getVideoById = async (videoId) => {
 
     // Send a GET request to fetch the video details by ID
     const response = await axios.get(
-      `http://localhost:8000/api/v1/videos/${videoId}`, 
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/videos/${videoId}`, 
       {
         headers: {
           'Authorization': `Bearer ${token}`,

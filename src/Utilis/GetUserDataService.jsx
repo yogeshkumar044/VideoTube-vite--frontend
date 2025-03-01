@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-const API_URL = 'http://localhost:8000/api/v1/users/current-user';
+const API_URL = `${import.meta.env.VITE_BACKEND_URL}/api/v1/users/current-user`;
 
 export const getUserData = async (token , userId) => {
   if(!userId){

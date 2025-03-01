@@ -8,7 +8,7 @@ export const toggleLike = async (videoId, userId, isLike = true) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post(`http://localhost:8000/api/v1/likes/toggle/v/${videoId}`, 
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/likes/toggle/v/${videoId}`, 
       {
         videoId,
         likedBy: userId,

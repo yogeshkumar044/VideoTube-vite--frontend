@@ -9,7 +9,7 @@ export const incrementViewCount = async (videoId ,userId) => {
 
     // Send a PATCH request to increment the view count
     const response = await axios.post(
-      `http://localhost:8000/api/v1/videos/views/${videoId}`, 
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/videos/views/${videoId}`, 
       {
         videoId,
         channelId: userId,

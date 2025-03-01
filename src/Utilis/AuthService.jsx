@@ -3,7 +3,7 @@ import axios from 'axios';
 // Function to handle login
 export const loginUser = async (credentials) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/v1/users/login', credentials);
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/login`, credentials);
     
     // Extract data from response based on your backend structure
     const { status, data, message } = response.data;
@@ -28,7 +28,7 @@ export const loginUser = async (credentials) => {
 // Function to handle registration
 export const registerUser = async (formData) => {
   try {
-    const response = await axios.post('http://localhost:8000/api/v1/users/register', formData, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/users/register`, formData, {
       headers: {
         'Content-Type': 'multipart/form-data',
       },

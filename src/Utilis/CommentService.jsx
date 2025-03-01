@@ -8,7 +8,7 @@ export const uploadComment = async (commentData, videoId) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post(`http://localhost:8000/api/v1/comments/${videoId}`, commentData, {
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/comments/${videoId}`, commentData, {
       headers: {
         'Content-Type': 'application/json',
         'Authorization': `Bearer ${token}`,
@@ -34,7 +34,7 @@ export const GetVideoComment = async (videoId, query) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.get(`http://localhost:8000/api/v1/comments/${videoId}`, {
+    const response = await axios.get(`${import.meta.env.VITE_BACKEND_URL}/api/v1/comments/${videoId}`, {
       params: query,
       headers: {
         'Authorization': `Bearer ${token}`,
@@ -64,7 +64,7 @@ export const updateComment = async (commentId, updatedContent) => {
     }
 
     const response = await axios.patch(
-      `http://localhost:8000/api/v1/comments/c/${commentId}`,
+      `${import.meta.env.VITE_BACKEND_URL}/api/v1/comments/c/${commentId}`,
       { content: updatedContent },
       {
         headers: {
@@ -93,7 +93,7 @@ export const deleteComment = async (commentId) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.delete(`http://localhost:8000/api/v1/comments/c/${commentId}`, {
+    const response = await axios.delete(`${import.meta.env.VITE_BACKEND_URL}/api/v1/comments/c/${commentId}`, {
       headers: {
         'Authorization': `Bearer ${token}`,
       },
