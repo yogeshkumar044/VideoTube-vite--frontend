@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useCallback } from 'react';
+import React, { useEffect, useState, useContext, useCallback, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../Context/LoginContext';
 import { SearchContext } from '../Context/SearchContext';
@@ -6,7 +6,11 @@ import { getAllVideos } from '../Utilis/GetAllVideosService';
 import VideoCard from './Video/VideoCard';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import Spotlight from '../Context/Spotlight';
-import RollingGallery from '../Utilis/RollingGallery';
+// import RollingGallery from '../Utilis/RollingGallery'; // Uncomment if needed
+
+// FIX: Define a constant limit. 
+// Set to 12 to ensure enough content loads to force a scrollbar on most screens.
+const VIDEOS_PER_PAGE = 12;
 
 const Home = () => {
   const { isLoggedIn } = useContext(LoginContext);
@@ -17,26 +21,36 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const navigate = useNavigate();
+  const loadingRef = useRef(false);
 
   // Reset search query on page load/refresh
   useEffect(() => {
     setSearchquery('');
+    // Cleanup function
     return () => {
       setVideos([]);
       setPage(1);
     };
-  }, []);
+  }, []); // Empty dependency array means this runs once on mount
 
   const fetchVideos = useCallback(async (pageNumber, searchQuery) => {
-    console.log(pageNumber,"jhhhhhhhhhhhh")
-    if (isLoading) return;
+    if (loadingRef.current) return;
 
     try {
+      loadingRef.current = true;
       setIsLoading(true);
       setError(null);
 
-      const response = await getAllVideos(pageNumber, 12, searchQuery || '');
-      const fetchedVideos = response.data;
+      // FIX: Use the constant VIDEOS_PER_PAGE here
+      const response = await getAllVideos(pageNumber, VIDEOS_PER_PAGE, searchQuery || '');
+      
+      if (!response || !response.data) {
+         if (!response) return; 
+         throw new Error('Invalid response format');
+      }
+      console.log(`Fetched page ${pageNumber}:`, response.data.length, 'videos');
+
+      const { data: fetchedVideos, totalVideos } = response;
 
       if (!Array.isArray(fetchedVideos)) {
         throw new Error('Invalid response format');
@@ -47,6 +61,7 @@ const Home = () => {
           return fetchedVideos;
         }
         
+        // Filter out duplicates just in case
         const newVideos = fetchedVideos.filter(
           newVideo => !prevVideos.some(prevVideo => prevVideo._id === newVideo._id)
         );
@@ -54,23 +69,36 @@ const Home = () => {
         return [...prevVideos, ...newVideos];
       });
 
-      setHasMore(fetchedVideos.length > 0);
+      // FIX: Logic matches the requested amount
+      // If we asked for 12 but got less than 12, we are at the end.
+      if (fetchedVideos.length < VIDEOS_PER_PAGE) {
+        setHasMore(false);
+      } else if (totalVideos !== undefined && pageNumber * VIDEOS_PER_PAGE >= totalVideos) {
+        setHasMore(false);
+      } else {
+        setHasMore(true);
+      }
+
     } catch (err) {
       console.error('Failed to load videos:', err);
       setError('Failed to load videos. Please try again later.');
       setHasMore(false);
     } finally {
+      loadingRef.current = false;
       setIsLoading(false);
     }
   }, []);
 
+  // Handle Search Query Changes
   useEffect(() => {
+    // When search changes, reset everything and fetch page 1
     setVideos([]);
     setPage(1);
     setHasMore(true);
     fetchVideos(1, Searchquery);
   }, [Searchquery, fetchVideos]);
 
+  // Auth Check
   useEffect(() => {
     if (!isLoggedIn) {
       navigate('/login');
@@ -78,7 +106,8 @@ const Home = () => {
   }, [isLoggedIn, navigate]);
 
   const loadMore = () => {
-    if (!isLoading && hasMore) {
+    if (!loadingRef.current && hasMore) {
+      console.log("Loading more..."); // Debugging log
       const nextPage = page + 1;
       setPage(nextPage);
       fetchVideos(nextPage, Searchquery);
@@ -113,13 +142,13 @@ const Home = () => {
       {/* <div className=" fixed  w-full overflow-hidden bg-gradient-to-r from-yellow-50 to-yellow-100 z-10 pt-4">
            <RollingGallery videos={videos} autoplay={true} pauseOnHover={true}  />
       </div> */}
+      
       <InfiniteScroll
         dataLength={videos.length}
         next={loadMore}
         hasMore={hasMore}
-        className=''
         loader={
-          <div className="flex justify-center p-4 ">
+          <div className="flex justify-center p-4 overflow-hidden">
             <div className="w-8 h-8 border-4 border-red-600 border-t-transparent rounded-full animate-spin"></div>
           </div>
         }
@@ -154,5 +183,3 @@ const Home = () => {
 };
 
 export default Home;
-
-

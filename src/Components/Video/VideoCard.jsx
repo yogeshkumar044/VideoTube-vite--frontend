@@ -33,7 +33,7 @@ const VideoCard = ({ video, className = "", cardSize = "", background = "bg-tran
 
   return (
     <div
-      className={`${cardSize} ${background} ${className} rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg border border-black hover:border-black`}
+      className={`${cardSize} bg-[#111120] ${className} rounded-lg overflow-hidden transition-all duration-300 hover:scale-105 hover:shadow-lg border border-black hover:border-black`}
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

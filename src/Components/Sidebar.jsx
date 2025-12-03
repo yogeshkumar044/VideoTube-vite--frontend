@@ -44,7 +44,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 isActive ? "text-orange-400" : "text-gray-400"
               } hover:text-orange-400`
             }
-            onClick={onClose}
           >
             <Home size={20} />
             Home
@@ -57,7 +56,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 isActive ? "text-orange-400" : "text-gray-400"
               } hover:text-orange-400`
             }
-            onClick={onClose}
           >
             <UserCircle size={20} />
             Profile
@@ -70,7 +68,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 isActive ? "text-orange-400" : "text-gray-400"
               } hover:text-orange-400`
             }
-            onClick={onClose}
           >
             <Video size={20} />
             Add Video
@@ -86,7 +83,6 @@ const Sidebar = ({ isOpen, onClose }) => {
                 isActive ? "text-orange-400" : "text-gray-400"
               } hover:text-orange-400`
             }
-            onClick={onClose}
           >
             <History size={20} />
             History

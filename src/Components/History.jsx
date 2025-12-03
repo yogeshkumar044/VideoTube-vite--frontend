@@ -52,7 +52,7 @@ export default function History() {
   }
 
   return (
-    <div className="min-h-screen border-l-gray-950 px-60 bg-white">
+    <div className="min-h-screen border-l-gray-950 px-60 bg-transparent">
       <div className="container mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-white mb-8">
           Watch History
