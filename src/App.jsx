@@ -6,7 +6,7 @@ import { LoginContext } from './Context/LoginContext';
 import Spotlight from "./Context/Spotlight";
 
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
   const { isLoggedIn } = useContext(LoginContext);
 
   const toggleSidebar = () => setIsSidebarOpen(!isSidebarOpen);
