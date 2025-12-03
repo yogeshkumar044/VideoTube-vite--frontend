@@ -21,7 +21,7 @@ function App() {
       )}
       <div className={`flex w-full ${isLoggedIn ? "pt-16" : "h-screen"}`}>
         {/* Sidebar */}
-        {isSidebarOpen && (
+        {isLoggedIn && isSidebarOpen && (
           <div className="w-[12.5%] min-w-maxb top-16">
             <Sidebar isOpen={isSidebarOpen} onClose={closeSidebar} />
           </div>
@@ -30,7 +30,7 @@ function App() {
         {/* Content Area */}
         <div
           className={`transition-all duration-300 ease-in-out flex-grow ${
-            isSidebarOpen ? " w-[87.5%]" : "w-full"
+            isLoggedIn && isSidebarOpen ? " w-[87.5%]" : "w-full"
           }`}
         >
           <Outlet />
