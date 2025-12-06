@@ -32,13 +32,14 @@ export const toggleSubscription = async (channelId ,subscriberId) => {
 };
 
 export const getUserChannelSubscribers = async (channelId , userId) => {
+  // console.log(channelId , userId,"channelId , userId from service");
   try {
     const token = localStorage.getItem('authToken');
     if (!token) {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post(`http://localhost:8000/api/v1/subscription/u/${channelId}`,
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/subscription/u/${channelId}`,
       {
         channelId ,
         userId,
@@ -72,7 +73,7 @@ export const getSubscribedChannels = async (subscriberId) => {
       throw new Error('No authentication token found. Please log in.');
     }
 
-    const response = await axios.post(`http://localhost:8000/api/v1/subscription/c/${subscriberId}`, 
+    const response = await axios.post(`${import.meta.env.VITE_BACKEND_URL}/api/v1/subscription/c/${subscriberId}`, 
       {
         subscriberId ,
       } ,
